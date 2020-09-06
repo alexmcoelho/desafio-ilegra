@@ -35,11 +35,11 @@ public class WriterArchive {
 	public void writeArchiveSale(Set<Sale> list) {
 		if(list != null && list.size() > 0) {
 			builder.append("ID da venda mais cara: ")
-			.append(ManipValues.maxVenda(list))
+			.append(ManipValues.maxSale(list))
 			.append("\n");
 		}
 		if(list != null && list.size() > 0) {
-			Salesman salesman = ManipValues.minVenda(list);
+			Salesman salesman = ManipValues.minSale(list);
 			builder.append("O pior vendedor: ")
 			.append(salesman.getName())
 			.append("\n");

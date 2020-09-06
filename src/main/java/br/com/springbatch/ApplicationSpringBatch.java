@@ -59,7 +59,7 @@ public class ApplicationSpringBatch implements CommandLineRunner{
         jobLauncher.run(job, params);
     }
     
-    public void juntar(String nameFile) throws FileNotFoundException, IOException {
+    public void joinContentInProgress(String nameFile) throws FileNotFoundException, IOException {
          
         BufferedReader br = null; 
             
@@ -67,17 +67,17 @@ public class ApplicationSpringBatch implements CommandLineRunner{
         
         String line = br.readLine(); 
         
-        String teste = "";
+        StringBuilder builder = new StringBuilder();
         while(line != null) 
         { 
-        	if(line != null) teste += "\n" + line;
+        	if(line != null) builder.append("\n").append(line);
             line = br.readLine();
         }
         
         br.close(); 
         
         String fileName = System.getProperty("user.dir") + progressFolter + progressFile;
-        byte[] tb = teste.getBytes(); 
+        byte[] tb = builder.toString().getBytes(); 
         try (FileOutputStream fos = new FileOutputStream(fileName, true)) {					
         	fos.write(tb); 
 		}       
@@ -99,14 +99,16 @@ public class ApplicationSpringBatch implements CommandLineRunner{
 				for (WatchEvent<?> event : key.pollEvents()) {
 					System.out.println("Event kind:" + event.kind() + ". File affected: " + event.context() + ".");
 					String kind = ""+event.kind();
-					if(kind.contains("CREATE")) {
-						files.add(""+event.context());
+					String context = ""+event.context();
+					if(kind.contains("CREATE") && context.matches("^.*.dat$")) {
+						files.add(context);
+						Thread.sleep(1000);
 					}
 				}
 				
 				key.reset();
 				for (String string : files) {
-					juntar(string);
+					joinContentInProgress(string);
 				}
 				files.clear();
 			}

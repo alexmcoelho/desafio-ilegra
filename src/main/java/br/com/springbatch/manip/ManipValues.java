@@ -8,7 +8,7 @@ import br.com.springbatch.model.Salesman;
 
 public class ManipValues {
 	
-	public static Long maxVenda(Set<Sale> sales) {
+	public static Long maxSale(Set<Sale> sales) {
 		Long max = sales
 			      .stream()
 			      .max(Comparator.comparing(Sale::getTotal))
@@ -17,7 +17,7 @@ public class ManipValues {
 		return max;
 	}
 	
-	public static Salesman minVenda(Set<Sale> sales) {
+	public static Salesman minSale(Set<Sale> sales) {
 		Salesman min = sales
 			      .stream()
 			      .min(Comparator.comparing(Sale::getTotal))
